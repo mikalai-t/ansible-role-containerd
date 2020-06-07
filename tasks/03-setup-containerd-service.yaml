@@ -14,7 +14,7 @@
     cmd: "{{ __containerd_binary_file }} config default > {{ __containerd_config_file }}"
   args:
     warn: no
-    creates: {{ __containerd_config_file }}
+    creates: "{{ __containerd_config_file }}"
   environment:
     DEBIAN_FRONTEND: noninteractive
   become: yes
