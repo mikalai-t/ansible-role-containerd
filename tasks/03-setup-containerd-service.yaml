@@ -10,7 +10,7 @@
     - containerd-restart-service
 
 - name: "03.2 - make sure default containerd config is created"
-  sheel:
+  shell:
     cmd: "{{ __containerd_binary_file }} config default > {{ __containerd_config_file }}"
   args:
     warn: no
