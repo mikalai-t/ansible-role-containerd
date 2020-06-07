@@ -37,3 +37,17 @@
   loop:
     - overlay
     - br_netfilter
+
+- name: "01.4 - setup sysctl variables"
+  sysctl:
+    name: "{{ item.key }}"
+    state: present
+    value: "{{ item.value }}"
+    sysctl_file: "{{ __containerd_sysctl_d_conf_file }}"
+    sysctl_set: yes
+    reload: yes
+  become: yes
+  loop:
+    # increase amount of simultaneously open files
+    - key: fs.file-max
+      value: 2097152

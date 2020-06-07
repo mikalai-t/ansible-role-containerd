@@ -16,3 +16,6 @@ __containerd_config_dir: /etc/containerd
 __containerd_config_file: "{{ __containerd_config_dir }}/config.toml"
 
 __containerd_modprobe_load_d_dir: /etc/modules-load.d
+
+__containerd_sysctl_d_dir: /etc/sysctl.d
+__containerd_sysctl_d_conf_file: "{{ __containerd_sysctl_d_dir }}/99-kubernetes-cri.conf"
