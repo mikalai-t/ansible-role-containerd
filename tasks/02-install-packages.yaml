@@ -4,6 +4,7 @@
   get_url:
     url: "{{ __containerd_runc_download_url }}"
     dest: "{{ __containerd_install_dir }}/runc"
+    mode: "a+x"
   become: yes
 
 - name: "02.1.2 - download containerd archive"
