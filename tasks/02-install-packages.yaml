@@ -1,0 +1,55 @@
+---
+
+- name: "02.1.1 - download runc binary"
+  get_url:
+    url: "{{ __containerd_runc_download_url }}"
+    dest: "{{ __containerd_install_dir }}/runc"
+  become: yes
+
+- name: "02.1.2 - download containerd archive"
+  get_url:
+    url: "{{ __containerd_download_url }}"
+    dest: "{{ __containerd_play_dir }}/containerd-{{ containerd_version }}.tar.gz"
+  become: yes
+  register: _containerd_archive_download
+
+- name: "02.2.1 - make sure directory for unpacked files is created"
+  file:
+    path: "{{ __containerd_play_dir }}/containerd-{{ containerd_version }}"
+    state: directory
+  become: yes
+
+- name: "02.2.2 - unpack archive"
+  shell:
+    cmd: "tar -xzf {{ __containerd_play_dir }}/containerd-{{ containerd_version }}.tar.gz -C {{ __containerd_play_dir }}/containerd-{{ containerd_version }} --strip-components=1"
+  args:
+    warn: no
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  become: yes
+  when:
+    - _containerd_archive_download is defined and
+      _containerd_archive_download is changed
+
+- name: "02.3.1 - find all unpacked binaries"
+  find:
+    paths:
+      - "{{ __containerd_play_dir }}/containerd-{{ containerd_version }}"
+    recurse: no
+    hidden: yes
+    patterns: "*"
+    use_regex: no
+    file_type: file
+  register: _containerd_binaries
+  become: yes
+
+- name: "02.3.2 - copy binaries to the installation directory"
+  copy:
+    src: "{{ item.path }}"
+    dest: "{{ __containerd_install_dir }}/{{ item.path|basename }}"
+    remote_src: yes
+    mode: "0755"
+  become: yes
+  loop_control:
+    label: "{{ item.path|basename }}"
+  loop: "{{ _containerd_binaries.files|flatten(1) }}"

@@ -1,0 +1,7 @@
+---
+
+- include_tasks: 01-prepare-env.yaml
+
+- include_tasks: 02-install-packages.yaml
+
+- include_tasks: 03-setup-containerd-service.yaml

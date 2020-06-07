@@ -1,0 +1,18 @@
+---
+
+__containerd_play_dir: /node-init
+
+__containerd_download_url: "https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}.linux-amd64.tar.gz"
+__containerd_runc_download_url: "https://github.com/opencontainers/runc/releases/download/{{ containerd_runc_version }}/runc.amd64"
+
+__containerd_service_name: containerd
+__containerd_service_systemd_dir: /lib/systemd/system
+__containerd_service_systemd_unit: "{{ __containerd_service_systemd_dir }}/{{ __containerd_service_name }}.service"
+
+__containerd_install_dir: /usr/local/bin
+__containerd_binary_file: "{{ __containerd_install_dir }}/containerd"
+
+__containerd_config_dir: /etc/containerd
+__containerd_config_file: "{{ __containerd_config_dir }}/config.toml"
+
+__containerd_modprobe_load_d_dir: /etc/modules-load.d

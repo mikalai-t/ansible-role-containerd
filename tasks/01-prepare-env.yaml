@@ -1,0 +1,39 @@
+---
+
+- name: "01.1 - make sure base play directory exists and world writable"
+  file:
+    path: "{{ __containerd_play_dir }}"
+    state: directory
+    owner: "0"
+    group: "0"
+    mode: "a=rwX"
+  become: yes
+
+- name: "01.2 - make sure containerd installation and config directories exist"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "ug=rwX,o-rwx"
+  become: yes
+  loop:
+    - "{{ __containerd_install_dir }}"
+    - "{{ __containerd_config_dir }}"
+
+- name: "01.3.1 - make sure necessary kernel modules are enabled to start on boot"
+  copy:
+    content: |
+      {{ item }}
+    dest: "{{ __containerd_modprobe_load_d_dir }}/{{ item }}.conf"
+  become: yes
+  loop:
+    - overlay
+    - br_netfilter
+
+- name: "01.3.2 - make sure required modules are configure to start with specified parameters"
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  loop:
+    - overlay
+    - br_netfilter

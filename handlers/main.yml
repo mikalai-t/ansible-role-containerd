@@ -1,0 +1,17 @@
+---
+
+- name: "containerd-reload-systemd"
+  shell:
+    cmd: "systemctl daemon-reload"
+  args:
+    warn: no
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  become: yes
+
+- name: "containerd-restart-service"
+  service:
+    name: "{{ __containerd_service_name }}"
+    state: restarted
+    enabled: yes
+  become: yes

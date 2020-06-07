@@ -1,0 +1,24 @@
+---
+
+- name: "03.1 - template containerd systemd unit"
+  template:
+    src: containerd.service
+    dest: "{{ __containerd_service_systemd_unit }}"
+  become: yes
+  notify:
+    - containerd-reload-systemd
+    - containerd-restart-service
+
+- name: "03.2 - make sure default containerd config is created"
+  sheel:
+    cmd: "{{ __containerd_binary_file }} config default > {{ __containerd_config_file }}"
+  args:
+    warn: no
+    creates: {{ __containerd_config_file }}
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  become: yes
+  notify:
+    - containerd-restart-service
+
+- meta: flush_handlers
