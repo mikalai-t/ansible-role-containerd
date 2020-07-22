@@ -5,3 +5,10 @@
 - include_tasks: 02-install-packages.yaml
 
 - include_tasks: 03-setup-containerd-service.yaml
+
+- name: "0.4 - make sure containerd service is started"
+  service:
+    name: "{{ __containerd_service_name }}"
+    state: started
+    enabled: yes
+  become: yes

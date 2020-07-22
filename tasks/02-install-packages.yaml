@@ -54,3 +54,5 @@
   loop_control:
     label: "{{ item.path|basename }}"
   loop: "{{ _containerd_binaries.files|flatten(1) }}"
+  notify:
+    - containerd-restart-service
