@@ -2,7 +2,7 @@
 
 __containerd_play_dir: /node-init
 
-__containerd_download_url: "https://github.com/containerd/containerd/releases/download/{{ containerd_version }}/containerd-{{ containerd_version[1:] }}.linux-amd64.tar.gz"
+__containerd_download_url: "https://github.com/containerd/containerd/releases/download/{{ containerd_version }}/containerd-{{ containerd_version[1:] }}-linux-amd64.tar.gz"
 __containerd_runc_download_url: "https://github.com/opencontainers/runc/releases/download/{{ containerd_runc_version }}/runc.amd64"
 
 __containerd_service_name: containerd
